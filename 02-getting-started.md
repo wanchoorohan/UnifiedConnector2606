@@ -2,8 +2,6 @@
 
 ### Installation and Setup
 
-Getting Teamcenter Connector 2606 up and running is straightforward. Here's the process:
-
 **Download and import the module:**
 1. Go to the Mendix Marketplace and download Teamcenter Connector 2606. Remember, it's now a single module—you don't need to download separate components.
 2. Import it into your Mendix 11 app (right-click on your project in the App Explorer and choose "Import module package").
@@ -11,23 +9,15 @@ Getting Teamcenter Connector 2606 up and running is straightforward. Here's the 
 **Add required dependencies:**
 3. Make sure your app includes Community Commons 11.4 or higher and the Encryption module. These are both available from the Marketplace.
 
-**Clean up obsolete modules:**
-4. If you're upgrading from an earlier version, remove these modules that are no longer needed:
-   - OIDC SSO
-   - User Commons
-   - Mx Model Reflection
-   - ObjectHandling
-   - Teamcenter Toolkit (now merged into TcConnector)
-
 **Configure security:**
-5. Assign the `TcConnector.User` role to the relevant user roles in your app's security settings. **Important**: The Administrator role now only has access to Teamcenter Configuration. For all integration work, use the User role.
-6. Click "Update Security" in Studio Pro to refresh entity access rules.
+4. Assign the `TcConnector.User` role to the relevant user roles in your app's security settings. **Important**: The Administrator role now only has access to Teamcenter Configuration. For all integration work, use the User role.
+5. Click "Update Security" in Studio Pro to refresh entity access rules.
 
 **Set up navigation:**
-7. Add Teamcenter Connector navigation items to your app's navigation menu or home page so users can access the integration features.
+6. Add Teamcenter Connector navigation items to your app's navigation menu or home page so users can access the integration features.
 
 **Enable React client:**
-8. Make sure the React client is enabled in your app settings (Project → Settings → Runtime). This is required for the Web Extension UI to work properly.
+7. Make sure the React client is enabled in your app settings (Project → Settings → Runtime). This is required for the Web Extension UI to work properly.
 
 **What you've installed:**
 Once complete, you'll have:
@@ -38,12 +28,12 @@ Once complete, you'll have:
 
 ### Connecting to Teamcenter
 
-Before you can build integrations, you need to establish a connection to your Teamcenter environment. Here's how:
+Before you can build integrations, you need to establish a connection to your Teamcenter environment.
 
 **Create a Teamcenter Service Document:**
 1. In the App Explorer, right-click on the module where you want to create your integrations
 2. Select "Add document" → "Teamcenter Service Document"
-3. Give it a meaningful name (e.g., "PartsIntegrations" or "MainTeamcenterConnection")
+3. Give it a name (e.g., "PartsIntegrations" or "MainTeamcenterConnection")
 
 **Open the Settings tab:**
 4. Double-click the Service Document you just created
