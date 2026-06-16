@@ -11,7 +11,6 @@ Teamcenter Connector 2606 marks a shift in how Mendix integrates with Teamcenter
 The unified module provides two complementary modules that work together:
 
 - **Teamcenter Connector** - It provides Java actions, a ready-to-use domain model, and all the service infrastructure needed to communicate with Teamcenter's SOA layer.
-- 
 - **Teamcenter Extension** — This is your design-time companion, built directly into Studio Pro. It guides you through configuring integrations using a visual interface, then automatically generates the microflows and domain model artifacts you need. Instead of writing integration code from scratch, you configure what you want and let the Extension build it for you.
 
 ### Architecture Overview
