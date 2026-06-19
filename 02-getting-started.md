@@ -19,13 +19,6 @@
 **Enable React client:**
 7. Make sure the React client is enabled in your app settings (Project → Settings → Runtime). This is required for the Web Extension UI to work properly.
 
-**What you've installed:**
-Once complete, you'll have:
-- The TcConnector module with all Java actions (toolbox services)
-- A base domain model with common Teamcenter entities like BOMLine and search criteria
-- The ability to create Teamcenter Service Documents for configuring integrations
-- All the runtime infrastructure for connecting to Teamcenter
-
 ### Connecting to Teamcenter
 
 Before you can build integrations, you need to establish a connection to your Teamcenter environment.
@@ -79,10 +72,8 @@ The Extension automatically clears your sign-in state when you edit or reset con
 For detailed SSO configuration guides covering both on-premises and Teamcenter X scenarios, see *(link to detailed SSO configuration guide)*.
 
 ### What is a Teamcenter Service Document?
+A Teamcenter Service Document as a container that holds everything related to your Teamcenter integrations within a specific module. 
 
-Think of a Teamcenter Service Document as a container that holds everything related to your Teamcenter integrations within a specific module. It's a new concept introduced in version 2606, and it fundamentally changes how you work with the Teamcenter Extension.
-
-**Why it matters:**
 In previous versions, the Extension stored configuration files on disk, separate from your Mendix app. This made version control tricky and team collaboration more complex. With the Service Document approach, everything is stored inside your Mendix module—just like microflows, pages, and domain models. This means:
 - Your integrations travel with your module when you export it or commit it to version control
 - Team members automatically get the latest integration configurations when they update from version control
@@ -90,39 +81,27 @@ In previous versions, the Extension stored configuration files on disk, separate
 
 **What a Service Document contains:**
 
-1. **Connection settings** — How to reach Teamcenter and how to authenticate
-2. **Integrations (journeys)** — All the configured integration patterns you've set up
+1. **Settings** — How to reach Teamcenter and how to authenticate
+  - This is where you configure the connection to Teamcenter
+  - Set up your authentication method, test the connection, and manage sign-in state
+  - You typically configure this once per Service Document, unless you need to switch environments
+2. **Integrations (journeys)** — All the configured integration patterns you've set up with option of adding a new one
+  - It shows an overview of all the integrations you've configured in this document
+  - You can see the journey type, the entities and microflows that were generated, and when each integration was last modified
+  - From here, you can:
+    - View details of an integration
+    - Edit an existing integration
+    - Duplicate an integration (useful for creating variations)
+    - Delete integrations you no longer need
+    - Navigate directly to the generated microflows and entities by clicking on them
+  - It also allows you to add new integrations      
 
 **You can have multiple Service Documents:**
-It's perfectly fine to create several Service Documents in a single app, each in its own module. This is useful for separating concerns. For example:
+You can create several Service Documents in a single app, each in its own module. This is useful for separating concerns. For example:
 - A "Parts" module with a Service Document for part-related integrations
 - A "Workflows" module with a Service Document for workflow-related integrations
 - A "Documents" module with a Service Document for dataset and document integrations
 
-**Understanding the tabs:**
-
-When you open a Service Document, you'll see three main tabs:
-
-**History tab** (your integration dashboard)
-- This is the default landing page when you open a Service Document
-- It shows an overview of all the integrations you've configured in this document
-- You can see the journey type, the entities and microflows that were generated, and when each integration was last modified
-- From here, you can:
-  - View details of an integration
-  - Edit an existing integration
-  - Duplicate an integration (useful for creating variations)
-  - Delete integrations you no longer need
-  - Navigate directly to the generated microflows and entities by clicking on them
-
-**Import Mapping tab** (where you build integrations)
-- This is the visual canvas where you configure new integrations or edit existing ones
-- It's modeled after Studio Pro's Import Mapping editor, so the interaction pattern should feel familiar
-- You'll use this tab to map Teamcenter objects to Mendix entities and configure journey-specific settings
-
-**Settings tab** (connection configuration)
-- This is where you configure the connection to Teamcenter
-- Set up your authentication method, test the connection, and manage sign-in state
-- You typically configure this once per Service Document, unless you need to switch environments
 
 ### Creating Your First Service Document
 
@@ -143,25 +122,18 @@ Let's walk through creating your first Service Document step by step. This is wh
    - For Credentials: enter username and password
    - For Teamcenter SSO: enter SSO Login Server URL, Identity Server URL, TC App ID, and callback URL
    - For Teamcenter X SSO: enter TcX Client ID, SAM Auth details, and callback URL
-10. Click "Sign In" to test the connection
-11. If the sign-in succeeds, you're ready to create integrations. If it fails, review the error message and check your connection details
+10. For more details on Settings tab, refer to Settings in the old Teamcenter Extension - https://docs.mendix.com/appstore/modules/siemens-plm/teamcenter-extension/create-an-integration/#settings-tab
+11. Click "Sign In" to test the connection
 
-**Step 3: Explore the History tab**
-12. Click on the "History" tab at the top
-13. Right now, it's empty—this is normal for a new Service Document
-14. This tab will fill up as you create integrations. Each integration will appear here as a card showing:
-    - The journey type (e.g., "Search Item Revisions")
-    - The integration name
-    - The generated microflows and entities
-    - When it was last modified
-
-**Step 4: Start your first journey**
-15. From the History tab, you'll see tiles representing the 11 available journey types (like "Search Item Revisions," "Create Item with Item Revision," etc.)
+**Step 3: Start your first journey**
+12. Click on the "Integrations" tab at the top. Right now, it's empty—this is normal for a new Service Document
+15. Click on "Add Integration"
+16. You'll see tiles representing the 11 available journey types (like "Search Item Revisions," "Create Item with Item Revision," etc.)
 16. Click on one of these tiles to start configuring that type of integration
-17. This will take you to the Import Mapping canvas
+17. This will take you to the Import Mapping page
 
-**Step 5: Use the Import Mapping canvas**
-The Import Mapping canvas is split into two sides:
+**Step 4: Use the Import Mapping Mapping Page**
+The Import Mapping page is split into two sides:
 
 **Teamcenter side (left):**
 - Browse the Teamcenter object hierarchy
