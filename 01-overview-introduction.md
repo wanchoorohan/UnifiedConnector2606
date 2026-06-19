@@ -57,9 +57,8 @@ Before you start working with Teamcenter Connector 2606, make sure your environm
 |---|---|
 | Mendix Studio Pro | 11.12.0 |
 | Teamcenter (self-hosted) | 2606, 2512, 2506 |
-| Teamcenter Security Services (self-hosted) | 2606, 2512, 2506 |
 | Teamcenter X | 2606, 2512, 2506 |
 
-**Required Marketplace dependencies:**
+**Required Marketplace modules:**
 - Community Commons 11.4+
 - Encryption
