@@ -6,11 +6,11 @@
 
 ### What is Teamcenter Connector 2606?
 
-Teamcenter Connector 2606 marks a shift in how Mendix integrates with Teamcenter. For the first time, we're bringing together everything you need in a single, unified Marketplace module. This release combines what were previously two separate Marketplace downloads—the Teamcenter Connector and the Teamcenter Extension (which itself contained two modules: Teamcenter Toolkit and the Extension add-on) into one streamlined package that works seamlessly with Mendix 11.12 and higher.
+Teamcenter Connector 2606 marks a shift in how Mendix integrates with Teamcenter. For the first time, we're bringing together everything you need in a single, unified Marketplace module. This release combines what were previously two separate Marketplace downloads: Teamcenter Connector and the Teamcenter Extension (which itself contained two modules: Teamcenter Toolkit and the Extension add-on) into one streamlined package that works seamlessly with Mendix 11.12 and higher.
 
-Additionally, Teamcenter Extension has been re-built using the Web Extensibility Framework and is now available as a service document. Think of a Service Document as a container that holds everything related to your Teamcenter integrations within a specific module. 
+Additionally, Teamcenter Extension has been re-built using the Web Extensibility Framework and is now available as a service document. You can think of a Service Document as a container that can be created on a per module basis and holds everything related to your Teamcenter integrations within a specific module. 
 
-In previous versions, the Extension stored configuration files on disk, separate from your Mendix app. This made version control tricky and team collaboration more complex. With the Service Document approach, everything is stored inside your Mendix module—just like microflows, pages, and domain models. This means:
+In previous versions, the Extension stored configuration files on disk, separate from your Mendix app. This made version control tricky and team collaboration more complex. With the Service Document approach, everything is stored inside your Mendix module, just like microflows, pages, and domain models. This means:
 - Your integrations travel with your module when you export it or commit it to version control
 - Team members automatically get the latest integration configurations when they update from version control
 - You can have different Service Documents for different purposes within the same app
