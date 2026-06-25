@@ -3,21 +3,18 @@
 ### Installation and Setup
 
 **Download and import the module:**
-1. Go to the Mendix Marketplace and download Teamcenter Connector 2606. Remember, it's now a single module—you don't need to download separate components.
-2. Import it into your Mendix 11 app (right-click on your project in the App Explorer and choose "Import module package").
+1. Open Mendix Studio Pro 11.12, and go to Marketplace tab. Download Teamcenter Connector 2606. Remember, now you don't need to download Teamcenter Extension since its all in one module.
+2. Alternatively, you can download Teamcenter Connector 2606 from marketplace and import it into your Mendix 11.12 project.
 
 **Add required dependencies:**
-3. Make sure your app includes Community Commons 11.4 or higher and the Encryption module. These are both available from the Marketplace.
+3. Make sure your app includes Community Commons and the Encryption module. These are both available from the Marketplace.
 
 **Configure security:**
 4. Assign the `TcConnector.User` role to the relevant user roles in your app's security settings. **Important**: The Administrator role now only has access to Teamcenter Configuration. For all integration work, use the User role.
 5. Click "Update Security" in Studio Pro to refresh entity access rules.
 
-**Set up navigation:**
-6. Add Teamcenter Connector navigation items to your app's navigation menu or home page so users can access the integration features.
-
 **Enable React client:**
-7. Make sure the React client is enabled in your app settings (Project → Settings → Runtime). This is required for the Web Extension UI to work properly.
+6. Make sure the React client is enabled in your app settings (Project → Settings → Runtime). This is required for the Web Extension UI to work properly.
 
 
 ### Creating your First Teamcenter service document
@@ -67,7 +64,7 @@ The Extension automatically clears your sign-in state when you edit or reset con
 **Start your first journey**
 8. Click on the "Integrations" tab at the top. Right now, it's empty—this is normal for a new Service Document
 9. Click on "Add Integration"
-10. You'll see tiles representing the 11 available journey types (like "Search Item Revisions," "Create Item with Item Revision," etc.)
+10. You'll see tiles representing the 11 available integration types (like "Search Item Revisions," "Create Item with Item Revision," etc.)
 11. Click on one of these tiles to start configuring that type of integration
 12. This will take you to the Import Mapping page
 
