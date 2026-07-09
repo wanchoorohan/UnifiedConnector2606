@@ -62,5 +62,5 @@ Before you start working with Teamcenter Connector 2606, make sure your environm
 | Teamcenter X | 2606, 2512, 2506 |
 
 **Required Marketplace modules:**
-- Community Commons 11.4+
-- Encryption
+- Community Commons 11.4+???
+- Encryption ????
