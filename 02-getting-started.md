@@ -25,6 +25,9 @@
   - This is where you configure the connection to Teamcenter
   - Set up your authentication method, test the connection, and manage sign-in state
   - You typically configure this once per Service Document, unless you need to switch environments
+
+<img width="2339" height="1168" alt="image" src="https://github.com/user-attachments/assets/cfeb4f6a-83cf-4524-a2da-462447144f7d" />
+
 2. **Integrations (journeys)** — All the configured integration patterns you've set up with option of adding a new one
   - It shows an overview of all the integrations you've configured in this document
   - You can see the journey type, the entities and microflows that were generated, and when each integration was last modified
@@ -35,6 +38,8 @@
     - Delete integrations you no longer need
     - Navigate directly to the generated microflows and entities by clicking on them
   - It also allows you to add new integrations      
+
+<img width="3544" height="1700" alt="image" src="https://github.com/user-attachments/assets/33937f02-6003-4016-be11-95f18d03f62e" />
 
 **You can have multiple Service Documents:**
 You can create several Service Documents in a single app, each in its own module. This is useful for separating concerns. For example:
@@ -73,7 +78,7 @@ The Extension automatically clears your sign-in state when you edit or reset con
 
 **Teamcenter side (left):**
 - Browse the Teamcenter object hierarchy
-- Select the business object type you want to work with (for example, "Item Revision" or "Dataset")
+- Select the business object type you want to work with 
 
 **Mendix side (right):**
 - Choose whether to create a new entity or use an existing one
@@ -81,11 +86,14 @@ The Extension automatically clears your sign-in state when you edit or reset con
 - If using existing, you can select an entity you've already defined in your domain model
 
 **Property mapping (center):**
-- Once you've selected the Teamcenter object type and Mendix entity, you'll see a list of properties
+- Once you've selected the Teamcenter object type and Mendix entity, you can add additional properties to the list of default selected properties.
+- Double click on the entity or click Select Elements on the top
 - Use the checkboxes to indicate:
   - "Read" — should this property be retrieved from Teamcenter?
   - "Write" — should this property be sent to Teamcenter when creating or updating
 - Select the properties you need for your integration
+
+<img width="2551" height="1975" alt="image" src="https://github.com/user-attachments/assets/a137c186-da2c-4c8e-bd59-d6a2a4eea222" />
 
 **Journey-specific panels:**
 - Depending on the journey type, you'll see additional configuration panels
