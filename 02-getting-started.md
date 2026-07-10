@@ -119,3 +119,7 @@ The Extension automatically clears your sign-in state when you edit or reset con
     - The generated microflows (click to jump directly to them in Studio Pro)
     - The generated entities (click to jump directly to the domain model)
 19. Try clicking on a microflow name—Studio Pro will open that microflow, and you can see exactly what was generated
+
+<img width="3529" height="1688" alt="image" src="https://github.com/user-attachments/assets/ca67bf73-c51d-4059-80f8-be2dc2d879ad" />
+
+
