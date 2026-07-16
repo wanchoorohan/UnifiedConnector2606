@@ -2,121 +2,128 @@
 
 ### Installation and Setup
 
-1. **Download and import the module:**
-- Open Mendix Studio Pro 11.12, and go to Marketplace tab. Download Teamcenter Connector 2606. Remember, now you don't need to download Teamcenter Extension since its all in one module.
-- Alternatively, you can download Teamcenter Connector 2606 from marketplace and import it into your Mendix 11.12 project.
+1. **Download and import the module**
+* Open Mendix Studio Pro 11.12, and go to the Marketplace tab. Download Teamcenter Connector 2606. Remember: you don't need to download Teamcenter Extension separately since its already included.
+* Alternatively, you can download Teamcenter Connector 2606 from the Mendix Marketplace and import it into your Mendix 11.12 project.
 
-2. **Add required dependencies:**
-- Make sure your app includes Community Commons and the Encryption module. These are both available from the Marketplace.
+2. **Add required dependencies**
+* Make sure your app includes Community Commons and the Encryption module. These are both available from the Marketplace.
 
-3. **Configure security:**
-- Assign the `TcConnector.User` role to the relevant user roles in your app's security settings. **Important**: The Administrator role now only has access to Teamcenter Configuration. For all integration work, use the User role.
-- Click "Update Security" in Studio Pro to refresh entity access rules.
+3. **Configure security**
+* Assign the `TcConnector.User` role to the relevant user roles in your app's security settings. **Important**: The Administrator role now only has access to `TcConnector.TeamcenterConfiguration`. For all integration work, use the User role.
+* Click "Update Security" in Studio Pro to refresh entity access rules.
 
-4. **Enable React client:**
-- Make sure the React client is enabled in your app settings (Project → Settings → Runtime). This is required for the Web Extension UI to work properly.
+4. **Enable React client**
+- Make sure the React client is enabled in your app settings (Project → Settings → Runtime). This is required for the Teamcenter service document to work properly.
 
-**What a Service Document contains:**
+---
+
+### What a Teamcenter service document contains
 
 1. **Settings** - How to reach Teamcenter and how to authenticate
-  - This is where you configure the connection to Teamcenter
-  - Set up your authentication method, test the connection, and manage sign-in state
-  - You typically configure this once per Service Document, unless you need to switch environments
+  * This is where you configure the connection to Teamcenter.
+  * Set up your authentication method, test the connection, and manage sign-in state.
+  * You typically configure this once per Teamcenter service document, unless you need to switch environments.
 
 <img width="2339" height="1168" alt="image" src="https://github.com/user-attachments/assets/cfeb4f6a-83cf-4524-a2da-462447144f7d" />
 
-2. **Integrations (journeys)** - All the configured integration patterns you've set up with option of adding a new one
-  - It shows an overview of all the integrations you've configured in this document
-  - You can see the journey type, the entities and microflows that were generated, and when each integration was last modified
-  - From here, you can:
-    - View details of an integration
-    - Edit an existing integration
-    - Duplicate an integration (useful for creating variations)
-    - Delete integrations you no longer need
-    - Navigate directly to the generated microflows and entities by clicking on them
-  - It also allows you to add new integrations      
+2. **Integrations** - All the configured integration patterns you've set up with option of adding a new one
+  * It shows an overview of all the integrations you've configured in this document.
+  * You can see the Teamcenter integration type, the entities and microflows that were generated, and when each integration was last modified.
+  * From here, you can:
+    * View details of an integration.
+    * Edit an existing integration.
+    * Duplicate an integration (useful for creating variations).
+    * Delete integrations you no longer need.
+    * Navigate directly to the generated microflows and entities by double-clicking on them.
+  * This is also where you can add new integrations.
 
 <img width="3544" height="1700" alt="image" src="https://github.com/user-attachments/assets/33937f02-6003-4016-be11-95f18d03f62e" />
 
-**You can have multiple Service Documents:**
-You can create several Service Documents in a single app, each in its own module. This is useful for separating concerns. For example:
-- A "Parts" module with a Service Document for part-related integrations
-- A "Workflows" module with a Service Document for workflow-related integrations
-- A "Documents" module with a Service Document for dataset and document integrations
+---
+
+**You can have multiple Teamcenter service documents**
+You can create several Teamcenter service documents in a single app, each in its own module. This is useful for separating concerns. For example:
+* A "Parts" module with a Teamcenter service document for part-related integrations.
+* A "Workflows" module with a Teamcenter service document for workflow-related integrations.
+* A "Documents" module with a Teamcenter service document for dataset and document integrations.
+
+---
 
 ### Create and build your first Teamcenter service document
 
-1. **Create a Teamcenter Service Document:**
-- In the App Explorer, right-click on the module where you want to create your integrations
-- Select "Add document" → "Teamcenter Service Document"
-- Give it a name (e.g., "PartsIntegrations" or "MainTeamcenterConnection")
+#### 1. Create a Teamcenter service document
+* In the App Explorer, right-click on the module where you want to create your integrations.
+* Select "Add other" → "Teamcenter service".
+* Give it a name (e.g., "PartsIntegrations" or "MainTeamcenterConnection").
 
-2. **Open the Settings tab:**
-- Double-click the Service Document you just created
-- Navigate to the Settings tab (it's one of the tabs at the top of the document)
+#### 2. Open the Settings tab
+* Double-click the Teamcenter service document you just created.
+* Navigate to the Settings tab (it's one of the tabs at the top of the document)
 
-3. **Configure your connection:**
-- In the Settings tab, provide your Teamcenter authentication option along with credentials. Please refer to the [old Teamcenter Extension](https://docs.mendix.com/appstore/modules/siemens-plm/teamcenter-extension/create-an-integration/#settings-tab) settings page for more details.
+#### 3. Configure your connection
+* In the Settings tab, provide your Teamcenter authentication option along with credentials. Please refer to the [old Teamcenter Extension](https://docs.mendix.com/appstore/modules/siemens-plm/teamcenter-extension/create-an-integration/#settings-tab) settings page for more details.
 
-4. **Test your connection:**
-- Once you've entered your connection details, click the "Sign In" button to test the connection
+#### 4. Test your connection
+* Once you've entered your connection details, click the "Sign In" button to test the connection.
 
-**Important note about auto-logout:**
-The Extension automatically clears your sign-in state when you edit or reset connection details. This is a security feature to ensure you're always using the correct credentials with the correct Teamcenter environment.
+>[!NOTE] Important note about auto-logout
+The Teamcenter service document automatically clears your sign-in state when you edit or reset connection details. This is a security feature to ensure you're always using the correct credentials with the correct Teamcenter environment.
 
-5. **Start your first journey**
-- Click on the "Integrations" tab at the top. Right now, it's empty—this is normal for a new Service Document
-- Click on "Add Integration"
-- You'll see tiles representing the 11 available integration types (like "Search Item Revisions," "Create Item with Item Revision," etc.)
-- Click on one of these tiles to start configuring that type of integration
-- This will take you to the Import Mapping page
+#### 5. **Add your first Teamcenter integration**
+* Click on the "Integrations" tab at the top. Right now, it's empty—this is normal for a new Teamcenter service document.
+* Click on "Add integration".
+* You'll see tiles representing the 11 available integration types (like "Search Item Revisions," "Create Item with Item Revision," etc.).
+* Click on one of these tiles to start configuring that type of integration.
+* This will take you to the Import Mapping page.
 
-6. **Use the Import Mapping Mapping Page**
-- Double click on any one of the boxes to open the object mapping panel
+#### 6. **Use the Import Mapping Mapping Page**
+Double-click on any one of the boxes to open the object mapping panel.
 
-**Teamcenter side (left):**
-- Browse the Teamcenter object hierarchy
-- Select the business object type you want to work with 
+**Teamcenter side (left)**
+* Browse the Teamcenter object hierarchy.
+* Select the business object type you want to work with (for example, "Item Revision" or "Dataset").
 
-**Mendix side (right):**
-- Choose whether to create a new entity or use an existing one
-- If creating new, the Extension will generate a specialized entity for you
-- If using existing, you can select an entity you've already defined in your domain model
+**Mendix side (right)**
+* Choose whether to create a new entity or use an existing one.
+  * If creating new, the Teamcenter service document will generate a specialized entity for you.
+  * If using existing, you can select an entity you've already defined in your domain model.
+* When you're done, choose the **Select** button at the bottom to proceed.
 
-**Property mapping (center):**
-- Once you've selected the Teamcenter object type and Mendix entity, you can add additional properties to the list of default selected properties.
-- Double click on the entity or click Select Elements on the top
-- Use the checkboxes to indicate:
-  - "Read" — should this property be retrieved from Teamcenter?
-  - "Write" — should this property be sent to Teamcenter when creating or updating
-- Select the properties you need for your integration
+**Mapping additional properties**
+* Once you've selected the Teamcenter object type and Mendix entity, you can add additional properties to the list of default selected properties.
+* Double-click on the entity or click **Select Elements** at the top.
+* Use the checkboxes to indicate:
+  * "Read" — should this property be retrieved from Teamcenter?
+  * "Write" — should this property be sent to Teamcenter when creating or updating.
+* Select the properties you need for your integration.
 
 <img width="2551" height="1975" alt="image" src="https://github.com/user-attachments/assets/a137c186-da2c-4c8e-bd59-d6a2a4eea222" />
 
-**Journey-specific panels:**
-- Depending on the journey type, you'll see additional configuration panels
-- For example:
-  - Search journeys let you configure search criteria
-  - Dataset journeys let you filter by dataset type
-  - BOM journeys let you configure BOM window properties and revision rules
-- Fill in these journey-specific settings as needed
-- For more information on each of the journeys, refer to [integration guides]{https://docs.mendix.com/appstore/modules/siemens-plm/teamcenter-extension/create-an-integration/integrations/)
+**Teamcenter integration-specific panels**
+* Depending on the integration type, you'll be presented with additional configuration panels.
+* For example:
+  * Search integrations let you configure search criteria.
+  * Dataset integrations let you filter by dataset type.
+  * BOM integrations let you configure BOM window properties and revision rules.
+* Fill in these integration-specific settings as needed.
+* For more information on each of the Teamcenter integrations, refer to [integration guides](https://docs.mendix.com/appstore/modules/siemens-plm/teamcenter-extension/create-an-integration/integrations/).
 
-7. **Generate your integration**
-- Once you've configured everything, click the "Generate" button
-- The Extension will:
-    - Validate your configuration to make sure everything is correct
-    - Generate domain model entities (placed in your domain model as a tree for easy visualization)
-    - Generate microflows that implement the integration logic
-    - Save the integration configuration to the History tab
+#### 7. **Generate your integration**
+* Once you've configured everything, click the "Generate" button.
+* The Teamcenter service document will:
+    * Validate your configuration to make sure everything is correct.
+    * Generate domain model entities (placed in your domain model as a tree for easy visualization).
+    * Generate microflows that implement the integration logic.
+    * Save the integration configuration to the History tab.
 
-8. **Explore the results**
-- After generation completes, you'll automatically return to the Integrations tab
-- Find your newly created integration in the list
-- You'll see links to:
-    - The generated microflows (click to jump directly to them in Studio Pro)
-    - The generated entities (click to jump directly to the domain model)
-- Try clicking on a microflow name—Studio Pro will open that microflow, and you can see exactly what was generated
+#### 8. **Explore the results**
+* After generation completes, you'll automatically return to the Integrations tab.
+* Find your newly created integration in the list.
+* You'll see links to:
+    * The generated microflows (double-click to jump directly to them in Studio Pro).
+    * The generated entities (double-click to jump directly to the Domain model).
+* Try double-clicking on a microflow name—Studio Pro will open that microflow, and you can see exactly what was generated.
 
 <img width="3529" height="1688" alt="image" src="https://github.com/user-attachments/assets/ca67bf73-c51d-4059-80f8-be2dc2d879ad" />
 
