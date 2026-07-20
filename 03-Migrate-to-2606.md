@@ -13,7 +13,9 @@ If you have an existing app using Teamcenter Connector 2512 and Extension v4.x, 
 
 2. **Have only one developer perform the migration** — If multiple developers migrate simultaneously, you'll end up with duplicate generated artifacts. Coordinate with your team and designate one person to handle the migration, then have others pull the updated code from version control.
 
-3. **Make a backup** — Before starting, either create a full backup of your app or commit all current changes to version control. This gives you a safety net in case you need to roll back.
+3. **Migrate from 2512** - If the project still contains an older version of the Teamcenter Connector (2506 or older) first follow the steps in: https://docs.mendix.com/appstore/modules/siemens-plm/upgrade-teamcenter-connector-2506-to-2512/
+
+4. **Make a backup** — Before starting, either create a full backup of your app or commit all current changes to version control. This gives you a safety net in case you need to roll back.
 
 **Step-by-step migration process**
 
@@ -21,59 +23,51 @@ If you have an existing app using Teamcenter Connector 2512 and Extension v4.x, 
 1. Open your app in Studio Pro 11.12.0 or higher
 2. Make sure all changes are committed (if using version control) or backed up
 
-**Step 2: Import the new connector**
-3. Go to the Mendix Marketplace and download Teamcenter Connector 2606
-4. Import it into your app
-5. This will replace your existing Teamcenter Connector module
+**Step 2: Move the Toolkit contents to the TcConnector module**
+3. Remove the old TcConnector module from your project, ignore the errors for now
+4. Rename the old Toolkit module to TcConnector, then remove the module. By doing this, the old Toolkit references are now pointing to the TcConnector module
 
-**Step 3: Remove obsolete modules**
-6. The following modules are no longer needed. Remove them from your app:
-   - **Teamcenter Toolkit** — This has been merged into TcConnector. All its functionality is now part of the main connector module.
-   - **OIDC SSO** — Authentication now uses the internal HttpListener; you don't need this module anymore
-   - **User Commons** — No longer a dependency
-   - **Mx Model Reflection** — No longer a dependency
-   - **ObjectHandling** — No longer a dependency
+**Step 3: Import the new connector**
+5. Remove the TeamcenterExtension module under add-ons, the old extension is not compatible with the new Teamcenter Connector 2606 module
+6. Download the Teamcenter Connector 2606 from the Mendix Marketplace, this now also contains the new version of the extension
 
 **Step 4: Resolve breaking changes**
 7. Studio Pro will show you errors where your microflows or domain model reference things that have changed. Work through these systematically. The most common issues you'll encounter:
    - References to `TeamcenterToolkit.*` — Change these to `TcConnector.*` (because Toolkit was merged into TcConnector)
    - References to `FileType` — Change these to `NamedReference`
    - Microflows that handle the Boolean return value from `Login` — Remove this handling, as `Login` now throws an exception instead
-   - User provisioning microflows using `sub` — Change to use `User` instead
-   - See the breaking changes reference table below for a complete list
+   - See the breaking changes reference & deprecated table below for a complete list
 
 **Step 5: Update security**
-8. Click "Update Security" in Studio Pro (Project → Security → Update Security)
-9. Review the User and Administrator role assignments
-10. Remember: the Administrator role now only has access to Teamcenter Configuration, so assign the User role to module roles that need entity access
+8. Click "Update Security" in Studio Pro (open domain model → Update Security), make sure that all atrributes on persistent entities have read-rights
+9. Remember: the Administrator role now only has access to Teamcenter Configuration, so assign the User role to module roles that need entity access
 
 **Step 6: Enable React client**
-11. Go to Project → Settings → Runtime
-12. Make sure "Enable React client" is turned on (required for the new Web Extension UI)
+10. Go to Project → Settings → Runtime
+11. Make sure "Use React client" is turned on
 
 **Step 7: Create a Teamcenter Service Document**
-13. In the module where your Teamcenter integrations live, right-click and select "Add document" → "Teamcenter Service Document"
-14. Give it a name (e.g., "MainIntegrations")
+12. In the module where your Teamcenter integrations live, right-click and select "Add others" → "Teamcenter Service"
+13. Give it a name (e.g., "MainIntegrations")
 
 **Step 8: Reconfigure your connection**
-15. Open the Service Document and go to the Settings tab
-16. Re-enter your Teamcenter URL and authentication settings
-17. Note: These settings are not migrated automatically—you need to enter them again
-18. Click "Sign In" to test the connection
+14. Open the Service Document and go to the Settings tab
+15. Enter your Teamcenter URL and authentication settings
+16. Click "Sign In" to test the connection
 
 **Step 9: Recreate your integrations**
-19. Your existing domain model entities and microflows are still in your app—they haven't been deleted
-20. However, you'll want to regenerate them using the new Extension to take advantage of improvements and ensure they're compatible with the new connector
-21. In the Service Document, start a journey that matches each of your existing integrations
-22. Configure it the same way as before (the journey types and options are the same)
-23. Generate the integration
-24. You can use the "Duplicate" feature in the History tab to create variations of an integration without reconfiguring from scratch
+17. Your existing domain model entities and microflows are still in your app—they haven't been deleted. However, you'll want to regenerate them using the new Extension to take advantage of improvements and ensure they're compatible with the new connector
+18. In the Service Document, click on '+ Add integration' and start a journey that matches each of your existing integrations
+19. Configure it the same way as before (the journey types and options are the same)
+20. Click "Generate" to save and generate the integration 
+21. Replace the old microflows with the new generated microflows
+22. You can use the "Duplicate" feature in the History tab to create variations of an integration without reconfiguring from scratch
 
 **Step 10: Test thoroughly**
-25. Run each generated microflow against your Teamcenter instance
-26. Verify that search, create, update, and retrieval operations work as expected
-27. Test error handling by triggering error conditions (e.g., invalid search criteria)
-28. If you have automated tests, run them to ensure integration behavior is correct
+23. Run each generated microflow against your Teamcenter instance
+24. Verify that search, create, update, and retrieval operations work as expected
+25. Test error handling by triggering error conditions (e.g., invalid search criteria)
+26. If you have automated tests, run them to ensure integration behavior is correct
 
 **Breaking changes reference**
 
@@ -81,7 +75,7 @@ Here's a comprehensive table of breaking changes and what you need to do about e
 
 | Area | Change | Action required |
 |---|---|---|
-| **Teamcenter Toolkit** | Module merged into TcConnector; module no longer exists | Update all references from `TeamcenterToolkit.*` to `TcConnector.*` |
+| **Teamcenter Toolkit Module** | Module merged into TcConnector; module no longer exists | Update all references from `TeamcenterToolkit.*` to `TcConnector.*` |
 | **Entity security** | Create and Delete rights removed from all entities | Remove any UI or microflow logic that relied on client-side Create/Delete; use microflows instead |
 | **Admin role** | Administrator no longer has entity access | Reassign to User role where needed |
 | **`FileType` / `File Type`** | Renamed to `NamedReference` / `Named Reference` | Update all references in microflows and mappings |
