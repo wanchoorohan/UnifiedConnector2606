@@ -18,19 +18,17 @@
 
 **Login and Logout behaviour refined** — The `Login` Java action no longer returns a Boolean—it either succeeds or throws an exception, making error handling more predictable. The `Logout` action now returns a Boolean to indicate success. The older `ExecuteLogin` and `ExecuteLogout` microflows have been deprecated in favor of the direct `Login` and `Logout` microflows.
 
-**FileType is now NamedReference** — For consistency with how the Extension layer names things, we've renamed `FileType` and `File Type` to `NamedReference` and `Named Reference` throughout entities and microflows. This is a breaking change—you'll need to update references in your existing microflows.
+**FileType is now NamedReference** — For consistency with Teamcenter naming conventions, we've renamed `FileType` and `File Type` to `NamedReference` and `Named Reference` throughout entities and microflows. This is a breaking change—you'll need to update references in your existing microflows.
 
 **CreateBOMWindow improvements** — The `CreateBOMWindow_Generic` microflow has been updated: its parameters are now optional, and we've split off a `ByConfigurationContext` variant for cases where you need that level of control. The pre-configured variants have been removed to simplify the API surface.
 
-**ConfigurationName is always required** — The `ModelObject` Java class now consistently requires `ConfigurationName` to be set in all cases. Previously, the behavior varied depending on whether you passed a configuration name or not—this inconsistency has been resolved.
+**Fix a bug where provision of a ConfigurationName to Java actions changes the behavior** — The `ModelObject` Java class now requires `ConfigurationName` to be set in all cases. Previously, the behavior varied depending on whether you passed a configuration name or not—this inconsistency has been resolved.
 
 **Better error handling** — The Connector no longer shows in-app error messages automatically. Instead, all error conditions throw exceptions, giving your microflows full control over how to handle and present errors to users. This makes error handling more predictable and testable.
 
 **SSO improvements** — We've enhanced error logging around SSO configuration to make troubleshooting easier. Teamcenter SSO is now compatible with Teamcenter 2406 (previously required 2512 or higher). User provisioning has also changed: the `TcSSOUserInformation` entity now only contains `User` and `Locale`—use the `User` attribute (not `sub`) to get the Teamcenter username.
 
-**BOMLine attributes updated** — Attribute lengths have been updated to match Teamcenter's default values, reducing the chance of data truncation issues.
-
-**ObjectHandling module removed** — The ObjectHandling module is no longer a dependency. You can safely remove it from existing projects during migration.
+**Attributes updated** — Some attribute lengths have been updated for BOMLine, ReviseItemRevision and User entities to match Teamcenter's default values, reducing the chance of data truncation issues.
 
 **More flexible URL handling** — Teamcenter URLs without a port number, without a trailing slash, or without a top-level domain now work correctly. This makes configuration more forgiving.
 
