@@ -20,18 +20,22 @@ If you have an existing app using Teamcenter Connector 2512 and Extension v4.x, 
 **Step-by-step migration process**
 
 **Step 1: Prepare your environment**
+
 1. Open your app in Studio Pro 11.12.0 or higher
 2. Make sure all changes are committed (if using version control) or backed up
 
 **Step 2: Move the Toolkit contents to the TcConnector module**
+
 3. Remove the old TcConnector module from your project, ignore the errors for now
 4. Rename the old Toolkit module to TcConnector, then remove the module. By doing this, the old Toolkit references are now pointing to the TcConnector module
 
 **Step 3: Import the new connector**
+
 5. Remove the TeamcenterExtension module under add-ons, the old extension is not compatible with the new Teamcenter Connector 2606 module
 6. Download the Teamcenter Connector 2606 from the Mendix Marketplace, this now also contains the new version of the extension
 
 **Step 4: Resolve breaking changes**
+
 7. Studio Pro will show you errors where your microflows or domain model reference things that have changed. Work through these systematically. The most common issues you'll encounter:
    - References to `TeamcenterToolkit.*` — Change these to `TcConnector.*` (because Toolkit was merged into TcConnector)
    - References to `FileType` — Change these to `NamedReference`
@@ -39,23 +43,28 @@ If you have an existing app using Teamcenter Connector 2512 and Extension v4.x, 
    - See the breaking changes reference & deprecated table below for a complete list
 
 **Step 5: Update security**
+
 8. Click "Update Security" in Studio Pro (open domain model → Update Security), make sure that all atrributes on persistent entities have read-rights
 9. Remember: the Administrator role now only has access to Teamcenter Configuration, so assign the User role to module roles that need entity access
 
 **Step 6: Enable React client**
+
 10. Go to Project → Settings → Runtime
 11. Make sure "Use React client" is turned on
 
 **Step 7: Create a Teamcenter Service Document**
+
 12. In the module where your Teamcenter integrations live, right-click and select "Add others" → "Teamcenter Service"
 13. Give it a name (e.g., "MainIntegrations")
 
 **Step 8: Reconfigure your connection**
+
 14. Open the Service Document and go to the Settings tab
 15. Enter your Teamcenter URL and authentication settings
 16. Click "Sign In" to test the connection
 
 **Step 9: Recreate your integrations**
+
 17. Your existing domain model entities and microflows are still in your app—they haven't been deleted. However, you'll want to regenerate them using the new Extension to take advantage of improvements and ensure they're compatible with the new connector
 18. In the Service Document, click on '+ Add integration' and start a journey that matches each of your existing integrations
 19. Configure it the same way as before (the journey types and options are the same)
@@ -64,6 +73,7 @@ If you have an existing app using Teamcenter Connector 2512 and Extension v4.x, 
 22. You can use the "Duplicate" feature in the History tab to create variations of an integration without reconfiguring from scratch
 
 **Step 10: Test thoroughly**
+
 23. Run each generated microflow against your Teamcenter instance
 24. Verify that search, create, update, and retrieval operations work as expected
 25. Test error handling by triggering error conditions (e.g., invalid search criteria)
@@ -77,16 +87,12 @@ Here's a comprehensive table of breaking changes and what you need to do about e
 |---|---|---|
 | **Teamcenter Toolkit Module** | Module merged into TcConnector; module no longer exists | Update all references from `TeamcenterToolkit.*` to `TcConnector.*` |
 | **Entity security** | Create and Delete rights removed from all entities | Remove any UI or microflow logic that relied on client-side Create/Delete; use microflows instead |
+| **Input parameter `ConfigName` renamed to `ConfigurationName`** | in generated microflows the input parameter is now called ConfigurationName and is optional | Set the ConfigurationName or leave it empty |
 | **Admin role** | Administrator no longer has entity access | Reassign to User role where needed |
 | **`FileType` / `File Type`** | Renamed to `NamedReference` / `Named Reference` | Update all references in microflows and mappings |
 | **`CreateBOMWindow_Generic`** | Moved to TcConnector; updated to use `CreateOrReconfigureBOMWindows`; pre-configured variants removed | Regenerate BOM microflows via the Extension or update manually to use `TcConnector.CreateBOMWindow_Generic` |
 | **`Login` Java action** | No longer returns Boolean; throws exception on failure | Remove Boolean result handling; wrap in error handler |
 | **`Logout` Java action** | Now returns Boolean | Update callers if return value was previously ignored |
-| **`ExecuteLogin` microflow** | Deprecated; replaced by `Login` microflow | Replace with `Login` |
-| **`ExecuteLogout` microflow** | Deprecated; replaced by `Logout` microflow | Replace with `Logout` |
-| **`TcSSOUserInformation`** | Now only contains `User` and `Locale`; `sub` removed | Use `User` attribute instead of `sub` for Teamcenter username in user provisioning microflows |
-| **Input entity naming** | CreateInput / CompoundCreateInput follow new naming convention | Regenerate affected journeys via the Extension |
-| **`ConfigurationName` on ModelObject** | Always required; previously optional in some code paths | Ensure ConfigurationName is always passed |
 | **Error messages** | Connector no longer shows in-app messages; throws exceptions instead | Ensure calling microflows have error handlers |
 
 **Deprecated microflows — with replacements**
@@ -95,20 +101,35 @@ These microflows still exist but are deprecated. Replace them with the recommend
 
 | Deprecated | Replacement |
 |---|---|
+| `AreMultipleTcConfigActive` | No replacement |
+| `CloseBOMWindow`| `BOMWindow_Close` |
+| `DownloadFile` | `DownloadFile` / `DownloadImage` Java action |
 | `ExecuteLogin` | `Login` microflow |
 | `ExecuteLogout` | `Logout` microflow |
-| `DownloadFile` | `DownloadFile` / `DownloadImage` Java action |
-| `HandleActiveConfigErrors` | No direct replacement (deprecated) |
-| `HandleServiceErrors` | No direct replacement (deprecated) |
-| `RetrieveConfigNameFromSingleActiveConfiguration` | No direct replacement (deprecated) |
-| `RetrieveHttpHeaderList` | No direct replacement (deprecated) |
-| `RetrieveTcSessionBasedOnConfigName` | No direct replacement (deprecated) |
-| `RetrieveTeamcenterConfigurationByName` | No direct replacement (deprecated) |
-| `ShowPartialErrors` | No direct replacement (deprecated) |
-| `UpdateSession` | No direct replacement (deprecated) |
+| `HandleActiveConfigErrors` | No replacement |
+| `HandleServiceErrors` | No replacement |
+| `RetrieveConfigNameFromSingleActiveConfiguration` | Use `empty` for configurationName parameter in Java actions, Java actions now handles active configuration in the Java code |
+| `RetrieveHttpHeaderList` | No replacement |
+| `RetrieveTcSessionBasedOnConfigName` | No replacement, TcSession should not be manually consumed; it is automatically handled by the TcConnector module. |
+| `RetrieveTeamcenterConfigurationByName` | Use `empty` for configurationName parameter in Java actions, Java actions now handles active configuration in the Java code |
+| `RetrieveTeamcenterConifgurationFromTcSession` | No replacement	TcSession should not be manually consumed; it is automatically handled by the TcConnector module |
+| `ShowPartialErrors` | No replacement |
+| `UpdateSession` | No replacement |
 
 **Note about deprecated Java actions:**
 Deprecated Java actions remain usable, but they're no longer published (they don't show the Teamcenter icon in Studio Pro). If you still need them, you can manually include them. However, we recommend replacing them with the published alternatives for future compatibility.
+
+|Java Action |	Replacement	|
+|---|---|
+| `PerformAction` |	PerformAction3 |
+| `GetWorkflowTemplates` |	GetWorkflowTemplates2 |
+| `CreateBOMWindows` |	CreateOrReConfigureBOMWindows |
+| `CreateBOMWindows2` |	CreateOrReConfigureBOMWindows	|
+| `WhereUsed` |	WhereUsed2 |	|
+| `ExpandPSOneLevel` |	ExpandPSOneLevel2	|
+| `GetTcSessionInfo` |	GetTcSessionInformation	|
+| `GetItemFromId` |	GetItemAndRelatedObjects |
+| `RetrieveCookie` | No replacement|
 
 **What carries forward automatically**
 
