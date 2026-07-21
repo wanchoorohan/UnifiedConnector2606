@@ -20,14 +20,14 @@
 
 ### What a Teamcenter service document contains
 
-1. **Settings** - How to reach Teamcenter and how to authenticate
-  * This is where you configure the connection to Teamcenter.
+1. **Settings** 
+  * This is where you configure the connection to your Teamcenter instance. This is required so the Teamcenter service document can communicate with Teamcenter to retrieve business objects and properties so you can build artifacts as per your use case.
   * Set up your authentication method, test the connection, and manage sign-in state.
   * You typically configure this once per Teamcenter service document, unless you need to switch environments.
 
 <img width="2339" height="1168" alt="image" src="https://github.com/user-attachments/assets/cfeb4f6a-83cf-4524-a2da-462447144f7d" />
 
-2. **Integrations** - All the configured integration patterns you've set up with option of adding a new one
+2. **Integrations** 
   * It shows an overview of all the integrations you've configured in this document.
   * You can see the Teamcenter integration type, the entities and microflows that were generated, and when each integration was last modified.
   * From here, you can:
@@ -58,8 +58,7 @@ You can create several Teamcenter service documents in a single app, each in its
 * Give it a name (e.g., "PartsIntegrations" or "MainTeamcenterConnection").
 
 #### 2. Open the Settings tab
-* Double-click the Teamcenter service document you just created.
-* Navigate to the Settings tab (it's one of the tabs at the top of the document)
+* Navigate to the Settings tab of the Teamcenter service document (it's one of the tabs at the top of the document)
 
 #### 3. Configure your connection
 * In the Settings tab, provide your Teamcenter authentication option along with credentials. Please refer to the [old Teamcenter Extension](https://docs.mendix.com/appstore/modules/siemens-plm/teamcenter-extension/create-an-integration/#settings-tab) settings page for more details.
@@ -73,12 +72,14 @@ The Teamcenter service document automatically clears your sign-in state when you
 #### 5. **Add your first Teamcenter integration**
 * Click on the "Integrations" tab at the top. Right now, it's empty—this is normal for a new Teamcenter service document.
 * Click on "Add integration".
-* You'll see tiles representing the 11 available integration types (like "Search Item Revisions," "Create Item with Item Revision," etc.).
+* You'll see tiles representing all available integration types (like "Search Item Revisions," "Create Item with Item Revision," etc.).
 * Click on one of these tiles to start configuring that type of integration.
 * This will take you to the Import Mapping page.
 
 #### 6. **Use the Import Mapping Mapping Page**
-Double-click on any one of the boxes to open the object mapping panel.
+Double-click on any one of the boxes to open the object mapping dialog.
+
+<img width="2562" height="1989" alt="image" src="https://github.com/user-attachments/assets/eaa4fb09-d1d8-4c39-9a8c-65004f4adc41" />
 
 **Teamcenter side (left)**
 * Browse the Teamcenter object hierarchy.
@@ -86,36 +87,36 @@ Double-click on any one of the boxes to open the object mapping panel.
 
 **Mendix side (right)**
 * Choose whether to create a new entity or use an existing one.
-  * If creating new, the Teamcenter service document will generate a specialized entity for you.
+  * If creating new, the Teamcenter service will generate an entity that is a specialization of the selected entity. 
   * If using existing, you can select an entity you've already defined in your domain model.
 * When you're done, choose the **Select** button at the bottom to proceed.
 
 **Mapping additional properties**
-* Once you've selected the Teamcenter object type and Mendix entity, you can add additional properties to the list of default selected properties.
-* Double-click on the entity or click **Select Elements** at the top.
+* Once you've selected the Teamcenter object type and Mendix entity, you can add additional properties/references/relations to the list of default selected properties.
+* Double-click on the entity or select an entity and click Select Elements at the top. 
 * Use the checkboxes to indicate:
   * "Read" — should this property be retrieved from Teamcenter?
-  * "Write" — should this property be sent to Teamcenter when creating or updating.
+  * "Write" — should this property be sent to Teamcenter when creating or updating (note the write checkboxes are only available in integrations where you can write data to Teamcenter). 
 * Select the properties you need for your integration.
 
 <img width="2551" height="1975" alt="image" src="https://github.com/user-attachments/assets/a137c186-da2c-4c8e-bd59-d6a2a4eea222" />
 
 **Teamcenter integration-specific panels**
-* Depending on the integration type, you'll be presented with additional configuration panels.
+* Depending on the integration type, you'll be presented with additional configuration dialog.
 * For example:
-  * Search integrations let you configure search criteria.
   * Dataset integrations let you filter by dataset type.
   * BOM integrations let you configure BOM window properties and revision rules.
-* Fill in these integration-specific settings as needed.
+* Configure these integration-specific settings as needed.
 * For more information on each of the Teamcenter integrations, refer to [integration guides](https://docs.mendix.com/appstore/modules/siemens-plm/teamcenter-extension/create-an-integration/integrations/).
 
 #### 7. **Generate your integration**
 * Once you've configured everything, click the "Generate" button.
 * The Teamcenter service document will:
-    * Validate your configuration to make sure everything is correct.
+    * Validate your integration to make sure everything is correct.
     * Generate domain model entities (placed in your domain model as a tree for easy visualization).
     * Generate microflows that implement the integration logic.
-    * Save the integration configuration to the History tab.
+    * Save the integration to the Teamcenter service document
+    * Navigate to the Integrations tab where the integration is now listed
 
 #### 8. **Explore the results**
 * After generation completes, you'll automatically return to the Integrations tab.
@@ -123,7 +124,7 @@ Double-click on any one of the boxes to open the object mapping panel.
 * You'll see links to:
     * The generated microflows (double-click to jump directly to them in Studio Pro).
     * The generated entities (double-click to jump directly to the Domain model).
-* Try double-clicking on a microflow name—Studio Pro will open that microflow, and you can see exactly what was generated.
+* Double click on a microflow name for Studio to open that microflow, and you can see exactly what was generated.
 
 <img width="3529" height="1688" alt="image" src="https://github.com/user-attachments/assets/ca67bf73-c51d-4059-80f8-be2dc2d879ad" />
 
