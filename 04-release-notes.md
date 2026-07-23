@@ -1,101 +1,172 @@
-### What Changed from Previous Versions?
+## 2606 {#2606}
 
-#### Module-level changes
+### 2606.0.0 {#26060}
 
-**Everything in one place** — The biggest change you'll notice is that Teamcenter Connector 2606 now delivers everything as a single module. Previously, you had to download two separate items from the Marketplace: the Teamcenter Connector module and the Teamcenter Extension (which contained two modules—Teamcenter Toolkit and the Extension add-on). Now it's one download, one import, and one version to track.
+**Release date: TBD**
 
-**Teamcenter Toolkit has been integrated** — The Toolkit module no longer exists as a standalone component. All of its microflows, entities, and Java actions are now part of the TcConnector module, using the same names you're familiar with. **Important**: This is a breaking change if you have existing apps that reference Toolkit module elements—you'll need to update those references during migration.
+{{% button color="info" href="https://marketplace.mendix.com/link/component/" text="Go to Marketplace" title="Download version 2606.0.0 from the Marketplace" %}}
 
-**Mendix 11.12 is now required** — Version 2606 requires Mendix Studio Pro 11.12 or higher. If you're still on Mendix 10, you'll need to upgrade your Studio Pro version before adopting this release.
+#### What's New in 2606?
 
-#### Teamcenter Connector changes
+Version 2606 of the Teamcenter Connector significantly consolidates and modernizes Teamcenter integrations. The Teamcenter Connector now includes a new Studio Pro extension for configuring your integrations, a complete rebuild with many quality of life improvements. We consolidated everything into one place. Previously, you had to download the Teamcenter Connector module and the Teamcenter Extension (which contained Teamcenter Toolkit and the Extension as part of an add-on module) separately. Now it is one single download, one import, and one version to track. The Teamcenter Toolkit has been integrated into the TcConnector module, with all of its microflows, entities, and Java actions.
 
-**Security has been hardened** — We've removed Create and Delete rights from all entities to align with security best practices. The Administrator role no longer has direct entity-level access (except for Teamcenter Configuration). For all Teamcenter integrations, you should now use the User role. This is a breaking change that improves security but may require updates to your existing security configuration.
+Version 2606 requires Mendix Studio Pro 11.12 or higher.
 
-**Clearer public and private boundaries** — The Connector now has a well-defined public API. Actions marked with a Teamcenter icon in Studio Pro are published and intended for your use. Actions without the icon are internal implementation details and shouldn't be called directly from your microflows.
+#### New Features
 
-**Deprecations with clear replacements** — Several older microflows have been deprecated, but each has a direct replacement. We've documented these in the migration guide so you know exactly what to use instead.
+##### Teamcenter Service Document
 
-**Login and Logout behaviour refined** — The `Login` Java action no longer returns a Boolean—it either succeeds or throws an exception, making error handling more predictable. The `Logout` action now returns a Boolean to indicate success. The older `ExecuteLogin` and `ExecuteLogout` microflows have been deprecated in favor of the direct `Login` and `Logout` microflows.
+We introduced the Teamcenter Service document, a new design-time approach that changes how you build Teamcenter integrations. The service document is your starting point and central hub for managing all integrations within a module. It replaces the previous menu-based Extension that stored configuration files on disk. The document contains two main sections:
 
-**FileType is now NamedReference** — For consistency with Teamcenter naming conventions, we've renamed `FileType` and `File Type` to `NamedReference` and `Named Reference` throughout entities and microflows. This is a breaking change—you'll need to update references in your existing microflows.
+- **Settings** tab where you configure your Teamcenter connection and authentication (with automatic credential clearing when connection details change for security).
+- **Integrations** tab that provides an overview of all configured integrations, showing generated entities and microflows. From the Integrations tab, you can view, edit, duplicate, or delete integrations. You can create multiple service documents within your application, each in a separate module. This enables you to organize integrations by concern (for example, separate documents for parts, workflows, and documents).
 
-**CreateBOMWindow improvements** — The `CreateBOMWindow_Generic` microflow has been updated: its parameters are now optional, and we've split off a `ByConfigurationContext` variant for cases where you need that level of control. The pre-configured variants have been removed to simplify the API surface.
+To create a service document, right-click a module in the App Explorer and select **Add other** > **Teamcenter service**. Once configured, the Extension generates everything you need: entities, associations, create/revise input entities, and microflows. This keeps your integration artifacts organized and version-controlled alongside your other Mendix documents.
 
-**Fixed a bug where provision of a ConfigurationName to Java actions changes the behavior** — The `ModelObject` Java class now requires `ConfigurationName` to be set in all cases. Previously, the behavior varied depending on whether you passed a configuration name or not—this inconsistency has been resolved.
+##### Mendix in AWC
 
-**Better error handling** — The Connector no longer shows in-app error messages automatically. Instead, all error conditions throw exceptions, giving your microflows full control over how to handle and present errors to users. This makes error handling more predictable and testable.
+We made some changes to the Teamcenter connector that are required for embedding Mendix applications in Teamcenter Active Workspace Client. For more information, see [Mendix inside Teamcenter](/refguide/mendix-client/mendix-inside-teamcenter/). These changes also give you more control over session management and authentication when building Mendix applications that integrate with Teamcenter:
 
-**SSO improvements** — We've enhanced error logging around SSO configuration to make troubleshooting easier. Teamcenter SSO is now compatible with Teamcenter 2406 (previously required 2512 or higher). User provisioning has also changed: the `TcSSOUserInformation` entity now only contains `User` and `Locale`—use the `User` attribute (not `sub`) to get the Teamcenter username.
+- We added an optional session discriminator on Login and LoginSSO. Credentials now has a new discriminator field; empty means unchanged behavior. This allows an embedded Mendix component to maintain separate sessions when needed.
+- We added a session discriminator on the /tcsso/login service, so an embedded Mendix component can now reuse the active AWC Teamcenter session.
+- We introduced a new anonymous REST endpoint to check whether the current session is logged in to Teamcenter without requiring authentication.
 
-**Attributes updated** — Some attribute lengths have been updated for BOMLine, ReviseItemRevision and User entities to match Teamcenter's default values, reducing the chance of data truncation issues.
+#### Improvements
 
-**More flexible URL handling** — Teamcenter URLs without a port number, without a trailing slash, or without a top-level domain now work correctly. This makes configuration more forgiving.
+##### TcConnector
 
-#### Teamcenter Extension changes
+- We hardened security by removing Create and Delete rights from all entities to align with security best practices. The Administrator role no longer has direct entity-level access (except for Teamcenter Configuration). For all Teamcenter integrations, you should now use the User role.
+- We improved SSO configuration error logging. Messages now name the fields that may be wrong and match the Teamcenter Extension.
+- We added a consistent Teamcenter icon on all published actions. Actions marked with a Teamcenter icon in Studio Pro are published and intended for your use. Actions without the icon are internal implementation details and shouldn't be called directly from your microflows.
+- We upgraded to Mendix 11.12.1.
+- We established clearer public and private boundaries in the structure of the TcConnector module. The Teamcenter Connector now has a well-defined public API.
 
-**Built on modern technology** — The Extension is now built using the Mendix Web Extensibility Framework (TypeScript). Previously, it used the C# Extensibility Framework, which Mendix is discontinuing. This modernization ensures the Extension will continue to evolve with future Mendix releases.
+##### Teamcenter Extension
 
-**Teamcenter Service Document introduced** — Integrations and connection settings are now stored as a document within your module, just like microflows and pages. This replaces the previous menu-based Extension that stored configuration files on disk. The advantage? Your integrations now travel with your module in version control, making team collaboration and deployment much smoother.
+- We rebuilt the Teamcenter Extension using the Mendix Web Extensibility Framework (TypeScript). Previously, it used the C# Extensibility Framework, which Mendix is discontinuing. This ensures continued compatibility with future Mendix releases.
+- We redesigned the Teamcenter Extension to follow the Studio Pro Design System. As a result, the extension looks and feels like a native part of Studio Pro even more so than the C# extension. The experience is more consistent with the rest of your development environment.
+- We introduced the Teamcenter Service Document. This document stores your integrations in the Mendix model. You can create multiple Service Documents per app/module. This enables you to organize your Teamcenter integrations by functional area (for example, a Parts module and a Workflows module can each have their own Service Document) or by Teamcenter environment. An added benefit of the Teamcenter Service Document is that integrations and Teamcenter instance settings are now stored as a document within your module, just like microflows and pages. The Teamcenter Service Document is the new entry point for your Teamcenter integrations and replaces the previous menu-based extension that stored configuration files on disk.
+- We introduced Teamcenter Service Document consistency checks. The extension validates your integrations and shows consistency checks when your integration gets corrupted. The extension listens to model changes to make sure the consistency checks remain in sync. The consistency checks are displayed as warnings in the Error List. This also allowed us to clean up the UI of the integrations overview. Instead of showing warning in the extension, we now refer to the Error List, if there are consistency errors.
+- We removed the sidebar from the import mapping page. Instead, the extension uses dialogs for selecting properties and configuring integration specific properties. This is more in line with Mendix Studio Pro.
+- We added a button to the toolbar of the import mapping page to launch the property mapping dialog for the selected business object / entity.
+- We introduced constants to store the secrets used in the TeamcenterX SSO configuration for the Teamcenter extension. This way, you can choose to keep them secret and prevent committing them to version control.
+- We added the option to clear the object mapping for a business object / entity by selecting either and pressing Delete
+- We added a new annotation to the Get structure integration that displays the integration specific properties: which revision rule to use, if variant rules are used and if BOM window properties are configured at design time.
 
-**Redesigned to match Studio Pro** — The Extension UI has been redesigned to follow the Studio Pro Design System, so it looks and feels like a native part of Studio Pro. The experience is more consistent with the rest of your development environment.
+#### Fixes
 
-**Input entity naming convention updated** — CreateInput and CompoundCreateInput entities now follow a new naming convention that aligns with TcConnector standards. This is a breaking change: if you have existing journeys, you'll need to regenerate them using the new Extension. Note that regeneration will not delete your previous input entities, so these need to be removed manually.
+- We improved the error message when the provided configuration name does not exist.
+- We fixed a blocking (locked) state when calling multiple Teamcenter Java actions within one transaction. This issue could cause one locked user to prevent other users from executing Teamcenter operations.
+- We fixed an error when a Teamcenter response contained an array mixing empty strings and valid Model Object UIDs. (Ticket 269666)
+- We updated attributes on BOMLine, ReviseItemRevision, User and WorkspaceObject entities to match Teamcenter defaults, reducing the chance of data truncation:
+  - BOMLine bl_rev_object_name (128)
+  - BOMLine bl_quantity (24)
+  - BOMLine bl_plmxml_abs_xform (240)
+  - ReviseItemRevision.item_revision_id (32)
+  - User.userid (32)
+  - WorkspaceObject.checked_out (32)
+- WhereUsed2 now correctly maps clientId and level in its response.
+- We fixed a misleading error "Entity does not exist: ListOfValues" from GetAttachedLOV and GetAttachedPropDescs2.
+- We renamed FileType/File Type to NamedReference/Named Reference for consistency with Teamcenter naming conventions.
 
-**Mac OS compatibility** — The Extension now works seamlessly on Mac OS, expanding the platforms you can use for development.
+#### Deprecations
 
-### Key Features and Capabilities
+We deprecated the following elements from the Teamcenter Connector. Deprecated elements are excluded and will be removed in a future release but continue to ship until then. Replacing them is recommended.
 
-#### Connector Layer (runtime)
+##### Deprecated microflows with a replacement:
 
-The Connector layer is where the work happens at runtime. Here's what it enables:
+- DownloadFile — use the DownloadFile/DownloadImage Java actions instead
+- ExecuteLogin — use the Login microflow instead
+- ExecuteLogout — use the Logout microflow instead
 
-**Access Teamcenter business objects** — A rich set of included Java actions (often called "toolbox services") gives you immediate access to common Teamcenter operations like searching, creating, updating, and retrieving data.
+##### Deprecated microflows without a direct replacement:
 
-**Call any Teamcenter SOA service** — For operations not covered by the included actions, you can call any Teamcenter SOA service directly using `CallTeamcenterService` (Java action) or `TcConnection.callTeamcenterService` (Java method). You just need to provide the operation mapping as JSON.
+See the annotation on each microflow for guidance:
 
-**Multiple Teamcenter instances** — The Connector supports multiple active Teamcenter configurations simultaneously (multi-instance), so you can work with different Teamcenter environments from the same app.
+- AreMultipleTcConfigActive
+- CloseBOMWindow
+- HandleActiveConfigErrors
+- HandleServiceErrors
+- RetrieveConfigNameFromSingleActiveConfiguration
+- RetrieveHttpHeaderList
+- RetrieveTcSessionBasedOnConfigName
+- RetrieveTeamcenterConfigurationByName
+- RetrieveTeamcenterConfigurationFromTcSession
+- ShowPartialErrors
+- UpdateSession
 
-**Three authentication modes** — Choose the authentication method that fits your environment:
-  - **Credentials** — Username and password, ideal for development and non-SSO environments
-  - **Teamcenter SSO** — For on-premises installations using Teamcenter Security Services
-  - **Teamcenter X SSO** — For cloud-hosted Teamcenter X environments
+##### Deprecated Java actions:
 
-**Extensible domain model** — You can specialize the built-in entities to map your custom Teamcenter business objects, giving you flexibility while maintaining the integration structure.
+See each action's documentation for its successor:
 
-**Structured error handling** — All errors are thrown as exceptions rather than being handled automatically. This means your microflows decide how to handle errors, making your application's behavior more predictable.
+- CreateBOMWindows
+- CreateBOMWindows2
+- ExpandPSOneLevel
+- GetItemFromId
+- GetTcSessionInfo
+- GetWorkflowTemplates
+- PerformAction
+- RetrieveCookie
+- WhereUsed
 
-**Optional FMS URL** — File Management System (FMS) operations are available when you configure the FMS URL, but the connector works perfectly fine without it if you don't need file operations.
+##### Deprecated entities:
 
-**Enhanced WhereUsed queries** — WhereUsed2 now includes `clientId` and `level` properties, giving you richer query capabilities for where-used operations.
+The following entities have been deprecated. To indicate this, the entities have been renamed with an underscore prefix:
 
-#### Extension Layer (design-time)
+- CreateBomWindowInput
+- CreateBomWindowInput_CreateBomWindowResponse
+- CreateBomWindowResponse
+- ExpandPSOneLevelResponse
+- GetItemFromIdInput
+- GetItemFromIdResponse
+- GetWorkflowTemplatesInput
+- ItemRevisionOutput
+- RevisionIDs
+- SessionUser
+- TcServerInfo
+- WhereUsedInput
+- WhereUsedResponseInfo
 
-The Extension layer accelerates your development by automating the repetitive parts of building Teamcenter integrations:
+##### Moved to Private
 
-**Teamcenter Service Document** — This document-based approach stores your integrations at the module level. You can create multiple Service Documents per app, which is useful for organizing integrations by functional area (for example, a Parts module and a Workflows module can each have their own Service Document).
+No longer published in the toolbox - use the wrapper microflow of the same name instead:
 
-**Visual import mapping canvas** — The mapping interface is modeled after Studio Pro's Import Mapping editor, so if you're familiar with that, you'll feel right at home. It shows the Teamcenter object hierarchy on one side and your Mendix entities on the other, making it easy to see what you're mapping.
+- Login Java action — use the Login microflow
+- Logout Java action — use the Logout microflow
+- LoginSSO Java action — use the LoginSSO microflow
 
-**11 guided journey types** — Journeys are pre-configured integration patterns that walk you through the setup process. Each journey generates the microflows and domain model entities you need:
-  - Search Item Revisions
-  - Create Item with Item Revision
-  - Update Item with Item Revision
-  - Revise Item Revision
-  - Search Datasets
-  - Get Datasets for Item Revision
-  - Attach Dataset to Item Revision
-  - Search Workspace Objects
-  - Relate Workspace Objects
-  - Get Properties
-  - Get Structure (BOM)
+#### Breaking Changes
 
-**Automatic code generation** — Once you configure a journey, the Extension generates everything for you: entities, associations, create/revise input entities, and the microflows that use them. Entities are even positioned as a tree in your domain model for easy visualization.
+##### Resources folder
 
-**Integrations tab** — This gives you an overview of all the integrations you've configured in a Service Document. You can view, edit, duplicate, and delete integrations, and you can navigate directly to the generated microflows and entities with a single click.
+- We changed the structure of the resources folder. The Operation Mapping folder is now a subfolder of a TcConnector folder. When upgrading, please move all custom Operation Mapping JSONs to `Resources\TcConnector\OperationMapping` and remove the old Operation Mapping folder (`Resources\OperationMapping`).
 
-**Built-in consistency checks** — The Extension validates your configuration before generating code, checking entities, attributes, associations, and microflows. It distinguishes between errors that can be automatically fixed and those that need your attention.
+##### Teamcenter Toolkit Integration
 
-**Progress dialogs** — For operations that take a while (like generating multiple entities and microflows), the Extension shows progress dialogs so you know what's happening.
+- We integrated the Teamcenter Toolkit content into the Teamcenter Connector. Its microflows, folders and entities are now in the Connector under the same names; BOMLine entities were merged and the search-criteria entities moved. Regenerate your integration with the Teamcenter Extension to resolve references to the microflows and entities.
 
-**Cross-platform support** — Works on both Mac OS and Windows, so your entire team can use it regardless of their development platform.
+##### Removed Actions
+
+We removed the following Microflow and Java Actions. If they are still used in your project, please retain the old TeamcenterToolkit module until you have migrated away from these actions:
+
+- ModelObject_AddToExistingOrNewList
+- JA_CopyModelObjectToNewCreateInput
+- JA_CreateDatasetSpecialization
+- The pre-configured CreateBOMWindow variants (CreateBOMWindow_Default, CreateBOMWindow_RevisionRule, CreateBOMWindow_VariantRule and their combinations) — use CreateBOMWindow or CreateBOMWindow_ByConfigurationContext instead. We updated the CreateBOMWindow microflow: its parameters are now optional, and we've split off a separate ByConfigurationContext variant for cases where you need that level of control.
+
+##### Security Model
+
+- We removed Create and Delete rights on all entities. The Administrator role now only has access to Teamcenter Configuration. Use the User role for Teamcenter integrations.
+
+##### Error Handling
+
+- We changed the error handling behavior. The Connector no longer shows in-app error messages automatically. Instead, all error conditions throw exceptions, giving your microflows full control over how to handle and present errors to users.
+
+##### Configuration Requirements
+
+- We fixed a bug where provision of a ConfigurationName to Java actions changes the behavior. The `ModelObject` Java class now consistently requires `ConfigurationName` to be set in all cases. Previously, the behavior varied depending on whether you passed a configuration name or not.
+
+##### Entity Changes
+
+- We removed the LastError attribute from the Credentials entity. Use exception handling instead.
+- We introduced a new naming convention for CreateInput and CompoundCreateInput specializations generated by the Teamcenter Service document. If you have existing integrations, you'll need to regenerate them by creating a new Teamcenter Service document, configure your integration, and generate the artifacts. Note that regeneration will not delete your previous input entities, so these need to be removed manually.
