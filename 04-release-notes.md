@@ -18,19 +18,17 @@
 
 **Login and Logout behaviour refined** — The `Login` Java action no longer returns a Boolean—it either succeeds or throws an exception, making error handling more predictable. The `Logout` action now returns a Boolean to indicate success. The older `ExecuteLogin` and `ExecuteLogout` microflows have been deprecated in favor of the direct `Login` and `Logout` microflows.
 
-**FileType is now NamedReference** — For consistency with how the Extension layer names things, we've renamed `FileType` and `File Type` to `NamedReference` and `Named Reference` throughout entities and microflows. This is a breaking change—you'll need to update references in your existing microflows.
+**FileType is now NamedReference** — For consistency with Teamcenter naming conventions, we've renamed `FileType` and `File Type` to `NamedReference` and `Named Reference` throughout entities and microflows. This is a breaking change—you'll need to update references in your existing microflows.
 
 **CreateBOMWindow improvements** — The `CreateBOMWindow_Generic` microflow has been updated: its parameters are now optional, and we've split off a `ByConfigurationContext` variant for cases where you need that level of control. The pre-configured variants have been removed to simplify the API surface.
 
-**ConfigurationName is always required** — The `ModelObject` Java class now consistently requires `ConfigurationName` to be set in all cases. Previously, the behavior varied depending on whether you passed a configuration name or not—this inconsistency has been resolved.
+**Fix a bug where provision of a ConfigurationName to Java actions changes the behavior** — The `ModelObject` Java class now requires `ConfigurationName` to be set in all cases. Previously, the behavior varied depending on whether you passed a configuration name or not—this inconsistency has been resolved.
 
 **Better error handling** — The Connector no longer shows in-app error messages automatically. Instead, all error conditions throw exceptions, giving your microflows full control over how to handle and present errors to users. This makes error handling more predictable and testable.
 
 **SSO improvements** — We've enhanced error logging around SSO configuration to make troubleshooting easier. Teamcenter SSO is now compatible with Teamcenter 2406 (previously required 2512 or higher). User provisioning has also changed: the `TcSSOUserInformation` entity now only contains `User` and `Locale`—use the `User` attribute (not `sub`) to get the Teamcenter username.
 
-**BOMLine attributes updated** — Attribute lengths have been updated to match Teamcenter's default values, reducing the chance of data truncation issues.
-
-**ObjectHandling module removed** — The ObjectHandling module is no longer a dependency. You can safely remove it from existing projects during migration.
+**Attributes updated** — Some attribute lengths have been updated for BOMLine, ReviseItemRevision and User entities to match Teamcenter's default values, reducing the chance of data truncation issues.
 
 **More flexible URL handling** — Teamcenter URLs without a port number, without a trailing slash, or without a top-level domain now work correctly. This makes configuration more forgiving.
 
@@ -42,9 +40,7 @@
 
 **Redesigned to match Studio Pro** — The Extension UI has been redesigned to follow the Studio Pro Design System, so it looks and feels like a native part of Studio Pro. The experience is more consistent with the rest of your development environment.
 
-**SSO uses internal HttpListener** — Both Teamcenter SSO and Teamcenter X SSO now use the internal extensibility API listener instead of requiring the OIDC module. There's a unified callback URL, replacing the separate callback port setting you had to configure before.
-
-**Input entity naming convention updated** — CreateInput and CompoundCreateInput entities now follow a new naming convention that aligns with TcConnector standards. This is a breaking change: if you have existing journeys, you'll need to regenerate them using the new Extension.
+**Input entity naming convention updated** — CreateInput and CompoundCreateInput entities now follow a new naming convention that aligns with TcConnector standards. This is a breaking change: if you have existing journeys, you'll need to regenerate them using the new Extension. Note that regeneration will not delete your previous input entities, so these need to be removed manually.
 
 **Mac OS compatibility** — The Extension now works seamlessly on Mac OS, expanding the platforms you can use for development.
 
@@ -96,12 +92,10 @@ The Extension layer accelerates your development by automating the repetitive pa
 
 **Automatic code generation** — Once you configure a journey, the Extension generates everything for you: entities, associations, create/revise input entities, and the microflows that use them. Entities are even positioned as a tree in your domain model for easy visualization.
 
-**History tab** — This gives you an overview of all the integrations you've configured in a Service Document. You can view, edit, duplicate, and delete integrations, and you can navigate directly to the generated microflows and entities with a single click.
+**Integrations tab** — This gives you an overview of all the integrations you've configured in a Service Document. You can view, edit, duplicate, and delete integrations, and you can navigate directly to the generated microflows and entities with a single click.
 
 **Built-in consistency checks** — The Extension validates your configuration before generating code, checking entities, attributes, associations, and microflows. It distinguishes between errors that can be automatically fixed and those that need your attention.
 
 **Progress dialogs** — For operations that take a while (like generating multiple entities and microflows), the Extension shows progress dialogs so you know what's happening.
-
-**Multi-language support** — The Extension UI follows your Studio Pro language preference, so it works in the language you're most comfortable with.
 
 **Cross-platform support** — Works on both Mac OS and Windows, so your entire team can use it regardless of their development platform.
