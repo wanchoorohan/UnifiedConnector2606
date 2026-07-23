@@ -10,11 +10,9 @@
 * Make sure your app includes Community Commons and the Encryption module. These are both available from the Marketplace.
 
 3. **Configure security**
-* Assign the `TcConnector.User` role to the relevant user roles in your app's security settings. **Important**: The Administrator role now only has access to `TcConnector.TeamcenterConfiguration`. For all integration work, use the User role.
+* Assign the `TcConnecor.Admin` role to configure your integration. It has only access to `TcConnector.TeamcenterConfiguration`.
+* Assign the `TcConnector.User` role to the relevant user roles in your app's security settings. 
 * Click "Update Security" in Studio Pro to refresh entity access rules.
-
-4. **Enable React client**
-- Make sure the React client is enabled in your app settings (Project → Settings → Runtime). This is required for the Teamcenter service document to work properly.
 
 ---
 
