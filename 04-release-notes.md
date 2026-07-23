@@ -22,7 +22,7 @@
 
 **CreateBOMWindow improvements** — The `CreateBOMWindow_Generic` microflow has been updated: its parameters are now optional, and we've split off a `ByConfigurationContext` variant for cases where you need that level of control. The pre-configured variants have been removed to simplify the API surface.
 
-**Fix a bug where provision of a ConfigurationName to Java actions changes the behavior** — The `ModelObject` Java class now requires `ConfigurationName` to be set in all cases. Previously, the behavior varied depending on whether you passed a configuration name or not—this inconsistency has been resolved.
+**Fixed a bug where provision of a ConfigurationName to Java actions changes the behavior** — The `ModelObject` Java class now requires `ConfigurationName` to be set in all cases. Previously, the behavior varied depending on whether you passed a configuration name or not—this inconsistency has been resolved.
 
 **Better error handling** — The Connector no longer shows in-app error messages automatically. Instead, all error conditions throw exceptions, giving your microflows full control over how to handle and present errors to users. This makes error handling more predictable and testable.
 
