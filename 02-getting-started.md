@@ -81,7 +81,7 @@ Double-click on any one of the boxes to open the object mapping dialog.
 
 **Teamcenter side (left)**
 * Browse the Teamcenter object hierarchy.
-* Select the business object type you want to work with (for example, "Item Revision" or "Dataset").
+*  the business object type you want to work with (for example, "Item Revision" or "Dataset").
 
 **Mendix side (right)**
 * Choose whether to create a new entity or use an existing one.
@@ -91,7 +91,7 @@ Double-click on any one of the boxes to open the object mapping dialog.
 
 **Mapping additional properties**
 * Once you've selected the Teamcenter object type and Mendix entity, you can add additional properties/references/relations to the list of default selected properties.
-* Double-click on the entity or select an entity and click Select Elements at the top. 
+* Double-click on the entity or select an entity and click **Select Elements...** button at the top. 
 * Use the checkboxes to indicate:
   * "Read" — should this property be retrieved from Teamcenter?
   * "Write" — should this property be sent to Teamcenter when creating or updating (note the write checkboxes are only available in integrations where you can write data to Teamcenter). 
