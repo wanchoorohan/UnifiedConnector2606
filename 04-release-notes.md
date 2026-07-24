@@ -10,7 +10,7 @@
 
 Version 2606 of the Teamcenter Connector significantly consolidates and modernizes Teamcenter integrations. The Teamcenter Connector now includes a new Studio Pro extension for configuring your integrations, a complete rebuild with many quality of life improvements. We consolidated everything into one place. Previously, you had to download the Teamcenter Connector module and the Teamcenter Extension (which contained Teamcenter Toolkit and the Extension as part of an add-on module) separately. Now it is one single download, one import, and one version to track. The Teamcenter Toolkit has been integrated into the TcConnector module, with all of its microflows, entities, and Java actions.
 
-Version 2606 requires Mendix Studio Pro 11.12 or higher.
+Version 2606 requires Mendix Studio Pro 11.12.1 or higher.
 
 #### New Features
 
@@ -133,14 +133,17 @@ No longer published in the toolbox - use the wrapper microflow of the same name 
 
 - Login Java action — use the Login microflow
 - Logout Java action — use the Logout microflow
-- LoginSSO Java action — use the LoginSSO microflow
+- LoginSSO Java action — set up the SSO login flow as described in the documentation
 
 #### Breaking Changes
 
 ##### Resources folder
 
-- We changed the structure of the resources folder. The Operation Mapping folder is now a subfolder of a TcConnector folder. When upgrading, please move all custom Operation Mapping JSONs to `Resources\TcConnector\OperationMapping` and remove the old Operation Mapping folder (`Resources\OperationMapping`).
-
+- We changed the structure of the resources folder. All resources for the connector are now in the `Resources/TcConnector` folder.
+- When upgrading, please move all custom Operation Mapping JSONs to `Resources/TcConnector/OperationMapping` and remove the old Operation Mapping folder (`Resources/OperationMapping`).
+- The folder `Resources/TeamcenterCommon` may be removed.
+- The folder `Resources/TeamcenterConnector` may be removed.
+ 
 ##### Teamcenter Toolkit Integration
 
 - We integrated the Teamcenter Toolkit content into the Teamcenter Connector. Its microflows, folders and entities are now in the Connector under the same names; BOMLine entities were merged and the search-criteria entities moved. Regenerate your integration with the Teamcenter Extension to resolve references to the microflows and entities.
@@ -156,7 +159,7 @@ We removed the following Microflow and Java Actions. If they are still used in y
 
 ##### Security Model
 
-- We removed Create and Delete rights on all entities. The Administrator role now only has access to Teamcenter Configuration. Use the User role for Teamcenter integrations.
+- We removed Create and Delete rights on all entities. The Administrator role now only has access to Teamcenter Configuration. Use the User module role for Teamcenter integrations.
 
 ##### Error Handling
 
